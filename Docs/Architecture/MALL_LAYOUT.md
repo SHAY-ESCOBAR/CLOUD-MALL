@@ -79,3 +79,28 @@ Only: Atrium + B1, B2, B3 (technology / fashion / café — per
 `Docs/PROJECT_VISION.md`'s opening build), main corridor between them, one
 entrance. Everything else in this document is the plan the MVP must not
 contradict, not something to build yet.
+
+## Visual style reference (inspiration only — not a licensed/imported asset)
+
+Owner shared screenshots (2026-08-06) of a third-party Unreal Marketplace
+demo scene ("ShoppingMall", running on UE 4.27 — a different engine
+version than this project's 5.8, and not something being purchased or
+imported) as **visual/style inspiration only**:
+
+- Glass-facade exterior with a covered entrance canopy, branded signage
+  ("PANORAMA CITY MALL" in the reference), palm trees / street furniture
+  outside.
+- Interior atrium: bright, warm-toned stone flooring, potted plants as
+  atrium dividers, soft bench seating, visible second-floor storefronts
+  and an escalator connecting floors — i.e. exactly the atrium-with-
+  visible-upper-floor massing this layout's `24m × 24m` atrium + vertical
+  core is designed to support.
+- Branded storefront signage style (bold logo + lit signage above the
+  glass shopfront) is a reasonable material/lighting target for Phase 7,
+  not something to attempt during greybox.
+
+This informs **materials, lighting, and dressing** in Phase 7
+(`Docs/Architecture/CONTENT_PIPELINE.md`) — it does not change the Phase 3
+greybox grid above, and no assets from that reference are used directly
+(license unknown/unverified — see `CLAUDE.md` rule against unlicensed
+commercial assets).
