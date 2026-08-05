@@ -17,9 +17,6 @@ per `Docs/Decisions/ADR-002-SHAY-VIRTUAL-MALL-SCOPE.md`.
       runs remotely — a local bridge is required, see
       `Docs/Architecture/MCP_ARCHITECTURE.md`)
 
-Run `Scripts/Setup/setup-project.ps1` locally and report back — do not
-assume any of the unverified items above.
-
 ## Phase 1 — Architecture Documents
 - [x] `Docs/PROJECT_VISION.md`
 - [x] `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md`
@@ -30,12 +27,18 @@ assume any of the unverified items above.
 - [x] This roadmap
 
 ## Phase 2 — Unreal Project Creation
-- [ ] Create `.uproject` (Unreal Engine 5.8), internal project name
-      `ShayVirtualMall`, inside this repo's clone (see
-      `Docs/Setup/UNREAL_SETUP.md`)
+- [x] Create `.uproject` (Unreal Engine 5.8) — `CLOUDMALL.uproject`,
+      verified present at the repo root on `feature/project-foundation`
+      (2026-08-06). Internal project name is `CLOUDMALL`, not
+      `ShayVirtualMall` — Unreal doesn't allow hyphens in project names,
+      and the folder had to match the existing repo folder name
+      (`CLOUD-MALL`) exactly for the project to land at the repo root
+      instead of a nested subfolder. Renaming the display name is
+      possible later via Project Settings if desired; not done yet.
 - [ ] Configure required plugins
 - [ ] Confirm `Content/` folder layout matches
-      `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md`
+      `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md` (skeleton exists;
+      not yet verified inside the Unreal Editor itself)
 - [ ] Verify Play In Editor works on an empty map
 
 ## Phase 3 — Greybox MVP
