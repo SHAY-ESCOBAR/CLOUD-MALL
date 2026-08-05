@@ -1,60 +1,49 @@
-# CLOUD MALL
+# CLOUD MALL — Shay Virtual Mall
 
 ## Vision
 
-A virtual, walkable shopping mall built in **Unreal Engine 5**, driven by
-natural-language instructions, visual references, Claude Code, and MCP —
-where visitors can browse stores and **actually complete real online
-purchases** inside the 3D environment (not a cosmetic showcase — a working
-storefront layer on top of real e-commerce).
+A virtual, walkable shopping mall built in **Unreal Engine 5** (internal
+project name `ShayVirtualMall`), driven by natural-language instructions,
+visual references, Claude Code, and MCP — where visitors can browse
+stores and **actually complete real online purchases** inside the 3D
+environment.
+
+The long-term product isn't "one mall" — it's a system that generates and
+operates 3D malls and stores for businesses, each with its own space, AI
+agent, products, promotions, and analytics. See `Docs/PROJECT_VISION.md`
+for the full vision and `Docs/Decisions/ADR-002-SHAY-VIRTUAL-MALL-SCOPE.md`
+for why this expanded spec lives here rather than in a new repository.
 
 This project follows the same GitHub-first approach established in
 `CORE-Unreal-AI`: infrastructure, documentation, and version control come
 first, 3D content comes after.
 
 **Backend decision (2026-08-05):** rather than build a new purchase
-backend, CLOUD MALL connects to the existing Supabase project already
-built for `cyber-solar-nexus` — a Lovable-originated web app that already
-implements a browser-based 3D mall with a real product catalog, cart,
-wallet, and a 120-unit mall leasing system (real ILS rent data). See
+backend, this project connects to the existing Supabase project already
+built for `cyber-solar-nexus` — a sibling repo with a working
+browser-based 3D mall (real product catalog, cart, wallet, and a
+120-unit mall leasing system with real ILS rent data). See
 `Docs/Architecture/BACKEND_INTEGRATION.md`.
 
-## Main Capabilities (target state)
+## Documentation map
 
-- Reference analysis (mall layout references, store photos, sketches,
-  dimensions, functional requirements)
-- Unreal blockout generation (corridors, store units, atrium, anchor stores)
-- Procedural scene building
-- Blueprint generation (navigation, store interaction, checkout triggers)
-- Material and lighting creation
-- Real purchase flow integration, backed by the existing `cyber-solar-nexus`
-  Supabase project (see `Docs/Architecture/BACKEND_INTEGRATION.md`)
-- AI-assisted environment production
-- GitHub version control for every generated change
-- Validation and rollback at every stage
-- Documentation of generated assets
+| Doc | Covers |
+|---|---|
+| `Docs/PROJECT_VISION.md` | Product/business vision |
+| `Docs/Architecture/SYSTEM_ARCHITECTURE.md` | GitHub-first pipeline architecture |
+| `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md` | Mall Kit, core game systems, folder layout |
+| `Docs/Architecture/DATA_MODEL.md` | Product / Store / Mall data structures |
+| `Docs/Architecture/CONTENT_PIPELINE.md` | Reference → greybox → production asset flow |
+| `Docs/Architecture/MCP_ARCHITECTURE.md` | The Unreal Control Layer / automation plan |
+| `Docs/Architecture/BACKEND_INTEGRATION.md` | The shared Supabase backend |
+| `ROADMAP.md` | Phase 0–10 plan |
+| `Docs/TASKS.md` | Current concrete checklist |
 
 ## Current Status
 
-**Foundation and repository setup.** No 3D content, Unreal project, mall
-layout, or store data exists yet. This repository currently establishes
-structure, documentation, version control, and the connection plan to
-Unreal Engine 5, MCP, and the existing Supabase backend.
-
-## Planned Architecture
-
-- GitHub repository (this branch) — source of truth, history, review, rollback
-- Local Unreal Engine 5 installation — the engine runs on your machine, never in CI
-- Claude Code — orchestrates analysis, planning, and file/asset generation
-- Unreal MCP server or plugin — the bridge Claude Code uses to control the Editor
-- Python Editor Scripting / Editor Scripting Utilities — in-Editor automation
-- Blueprint automation
-- Existing Supabase project (from `cyber-solar-nexus`) as the purchase/mall
-  backend that the in-world storefronts call into — see
-  `Docs/Architecture/BACKEND_INTEGRATION.md`
-- GitHub Actions — repository-level validation (see `.github/workflows`)
-
-See `Docs/Architecture/SYSTEM_ARCHITECTURE.md` for details.
+**Foundation and documentation in place; no `.uproject` or 3D content
+yet.** See `Docs/TASKS.md` for what's next (Unreal project creation is
+the current blocking step, owned by the local machine).
 
 ## Safety Principles
 
@@ -64,11 +53,12 @@ See `Docs/Architecture/SYSTEM_ARCHITECTURE.md` for details.
 - Commit before any significant change.
 - Never commit credentials, tokens, API keys, or payment/checkout secrets.
 - Blockout first, production detail only after review/approval.
-- No real payment integration goes live without explicit, separate approval
-  — this is a hard line given real money will be involved eventually.
+- No real payment integration goes live without explicit, separate approval.
 - No write access to the Supabase `mall_units`/`mall_leases` tables (real
   tenant/rent data) from AI-driven automation without the same approval
   gate as payments — see `Docs/Architecture/BACKEND_INTEGRATION.md`.
+- Never claim an Unreal Editor action was performed if it actually wasn't
+  — see `Docs/Architecture/MCP_ARCHITECTURE.md`.
 
 ## Repository Structure
 
@@ -76,14 +66,21 @@ See `Docs/Architecture/SYSTEM_ARCHITECTURE.md` for details.
 CLOUD-MALL/
 ├── .github/                 GitHub Actions, issue templates, PR template
 ├── Config/                  Unreal engine/project config (.ini)
-├── Content/CORE_AI/         All AI-generated / AI-managed content lives here
+├── Content/
+│   ├── CORE_AI/              AI-generated / AI-managed content (see CLAUDE.md)
+│   ├── Mall/                 Architecture, Materials, Props, Lighting, Stores,
+│   │                         Products, Navigation, Advertising
+│   └── Core/                 Blueprints, Components, Interfaces, Data, UI, Save, Audio
 ├── Plugins/                 Unreal plugins (MCP bridge, editor utilities, etc.)
 ├── Scripts/                 Setup, validation, Unreal editor, and MCP scripts
-├── Source/                  C++ source (if/when the project needs it)
+├── Source/ShayVirtualMall/  C++ source: Core, Interaction, Commerce, Navigation, AI, Data
 ├── Tests/                   Automated tests
 ├── Tools/                   Standalone tooling
 └── Docs/                    Architecture, setup, workflow, and decision records
 ```
+
+See `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md` for the full folder
+layout including `Characters/` and `Maps/`.
 
 ## Setup
 
@@ -102,7 +99,8 @@ git lfs pull
 ### 3. Open the project in Unreal
 No `.uproject` file exists yet — this is intentional. See
 `Docs/Setup/UNREAL_SETUP.md` for how to create one against this repo's
-folder structure, targeting **Unreal Engine 5**.
+folder structure, targeting **Unreal Engine 5.8**, internal project name
+`ShayVirtualMall`.
 
 ### 4. Install required plugins
 See `Docs/Setup/UNREAL_SETUP.md` for the plugin list once defined. Do not
