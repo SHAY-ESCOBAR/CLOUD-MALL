@@ -38,10 +38,20 @@ Pull Request -> review -> merge -> release
 | Unreal Engine 5 Editor | Local machine only | Renders/builds the mall. Never runs in GitHub Actions. |
 | GitHub Actions (`repository-validation.yml`) | GitHub-hosted runner | Structure/docs/secrets/LFS/JSON/YAML/Markdown checks |
 | Self-hosted runner (future) | Local Windows machine with Unreal installed | Blueprint compile checks, map load checks, packaging smoke tests |
-| Purchase backend (future, separate approval) | External e-commerce/payment provider | Product catalog, cart, checkout — called from in-world storefronts |
+| Purchase/mall backend | Existing Supabase project (from `cyber-solar-nexus`) | Product catalog, cart/wallet, mall unit/lease data, auth — called from in-world storefronts. See `Docs/Architecture/BACKEND_INTEGRATION.md` |
+
+## Reused backend (decision, 2026-08-05)
+
+Rather than choosing a new e-commerce/payment backend, CLOUD MALL reuses
+the Supabase project already built for `cyber-solar-nexus` (a Lovable-
+originated web app that is itself a browser-based 3D mall with real
+cart/wallet/store/lease data). Full details, table schema, and the safety
+rules around it: `Docs/Architecture/BACKEND_INTEGRATION.md`.
 
 ## Non-goals (for now)
 
 - Running Unreal Engine inside GitHub Actions / any public cloud runner.
 - Fully automated merges to `main` without human review.
-- Any live payment processing without an explicit, separate approval step.
+- Any live payment processing or mall-lease write operation without an
+  explicit, separate approval step (see `CLAUDE.md` and
+  `Docs/Architecture/BACKEND_INTEGRATION.md`).
