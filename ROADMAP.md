@@ -2,69 +2,118 @@
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
-## Phase 1 — Repository Foundation
-- [x] Repository branch (`feature/project-foundation`)
-- [x] Documentation
-- [x] Git LFS
-- [x] Validation (GitHub Actions workflow)
-- [x] Branch strategy
+This roadmap follows the phased plan from `Docs/PROJECT_VISION.md`
+(the "Shay Virtual Mall" specification), adopted into this repository
+per `Docs/Decisions/ADR-002-SHAY-VIRTUAL-MALL-SCOPE.md`.
+
+## Phase 0 — Environment Check
+- [x] Repository branch (`feature/project-foundation`) + GitHub foundation
+- [x] Git / Git LFS confirmed working locally
+- [x] Unreal Engine confirmed installed locally (5.8)
+- [ ] Visual Studio / Rider / build tools — not yet verified
+- [ ] Unreal Automation Tool, Python Editor Script Plugin, Editor Utility
+      Widgets — not yet verified as enabled
+- [ ] Claude Code installed on the local Unreal machine (this session
+      runs remotely — a local bridge is required, see
+      `Docs/Architecture/MCP_ARCHITECTURE.md`)
+
+Run `Scripts/Setup/setup-project.ps1` locally and report back — do not
+assume any of the unverified items above.
+
+## Phase 1 — Architecture Documents
+- [x] `Docs/PROJECT_VISION.md`
+- [x] `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md`
+- [x] `Docs/Architecture/DATA_MODEL.md`
+- [x] `Docs/Architecture/CONTENT_PIPELINE.md`
+- [x] `Docs/Architecture/MCP_ARCHITECTURE.md` (Unreal Automation Plan)
+- [x] `Docs/TASKS.md`
+- [x] This roadmap
 
 ## Phase 2 — Unreal Project Creation
-- [ ] Create `.uproject` (Unreal Engine 5)
+- [ ] Create `.uproject` (Unreal Engine 5.8), internal project name
+      `ShayVirtualMall`, inside this repo's clone (see
+      `Docs/Setup/UNREAL_SETUP.md`)
 - [ ] Configure required plugins
-- [ ] Create a basic map
-- [ ] Confirm `Content/` folder layout matches this repo
-- [ ] Verify Play In Editor works
+- [ ] Confirm `Content/` folder layout matches
+      `Docs/Architecture/UNREAL_GAME_ARCHITECTURE.md`
+- [ ] Verify Play In Editor works on an empty map
 
-## Phase 3 — Claude Code Integration
-- [ ] Install Claude Code on the local Unreal machine
-- [ ] Confirm `CLAUDE.md` rules are being followed
-- [ ] Confirm working-directory permissions
-- [ ] Confirm Setup/Validation scripts run cleanly
-- [ ] Run first end-to-end test task
+## Phase 3 — Greybox MVP
+No investment in final art yet — validate scale, flow, and interactions:
+- [ ] Exterior mall entrance structure
+- [ ] Central lobby
+- [ ] Main corridor
+- [ ] Three storefronts: technology / fashion / café
+- [ ] At least one store fully active/enterable
+- [ ] First-person keyboard+mouse movement
+- [ ] Automatic doors
+- [ ] Basic information point + signage
+- [ ] Basic dynamic lighting
 
-## Phase 4 — Unreal MCP
-- [ ] Install Unreal MCP server/plugin
-- [ ] Establish local connection from Claude Code
-- [ ] Enumerate available MCP tools
-- [ ] Test: spawn/inspect an Actor
-- [ ] Test: open/inspect a Map
-- [ ] Test: create/inspect a Blueprint
+## Phase 4 — Interaction System
+- [ ] `BPI_Interactable` interface
+- [ ] `BP_InteractionComponent`
+- [ ] `BP_ProductActor`
+- [ ] `WBP_InteractionPrompt`
+- [ ] `WBP_ProductDetails`
+- [ ] `BP_StoreTrigger`
+- [ ] `BP_AutomaticDoor`
 
-## Phase 5 — Mall Reference-to-Blockout
-- [ ] Reference material for mall layout (images/sketches/dimensions)
-- [ ] Estimated dimension extraction (corridors, store units, atrium)
-- [ ] Cross-reference layout with existing `mall_units` data (floor/zone/
-      unit_code) from the Supabase project, so the 3D layout and real
-      leasing data agree — see `Docs/Architecture/BACKEND_INTEGRATION.md`
-- [ ] Blockout generation
-- [ ] Camera framing / navigation pass
-- [ ] Screenshot capture for review
-- [ ] Human review checkpoint
+## Phase 5 — Data-Driven Stores
+- [ ] Data Assets/Tables for products, stores, promotions, shelf
+      positions, signage positions (see `Docs/Architecture/DATA_MODEL.md`)
+- [ ] Load products without opening a Blueprint or changing code
 
-## Phase 6 — Production Scene
-- [ ] Meshes (storefronts, signage, fixtures)
-- [ ] Materials
-- [ ] Lighting
-- [ ] Navigation/interaction Blueprints
-- [ ] Store browsing interactions
-- [ ] Optimization
+## Phase 6 — UI
+- [ ] Minimal crosshair/reticle
+- [ ] Interaction prompt
+- [ ] Product card
+- [ ] Shopping cart (local/mock)
+- [ ] Mall map
+- [ ] Main menu, settings, loading screen
+- [ ] Save player position/settings
 
-## Phase 7 — Backend Integration (separate approval required for writes)
+## Phase 7 — Visual Quality
+Only after the systems above work:
+- [ ] Replace greybox with real assets (see
+      `Docs/Architecture/CONTENT_PIPELINE.md`)
+- [ ] Nanite where appropriate
+- [ ] Lumen per hardware targets
+- [ ] Glass / metal / concrete / wood / fabric / floor materials
+- [ ] Reflections, store lighting, lit signage, greenery
+- [ ] Performance budget per zone, checked before adding more assets
+
+## Phase 8 — Editor Automation
+- [ ] Store-from-template creation tool
+- [ ] Store category selection
+- [ ] Auto storefront generation
+- [ ] Shelf/product-point placement
+- [ ] Store Configuration loading
+- [ ] Logo/brand color swap
+- [ ] Signage generation
+- [ ] Error checking
+- [ ] Test build generation
+- [ ] The MCP/Unreal Control Layer itself (`Docs/Architecture/MCP_ARCHITECTURE.md`):
+      spawn/inspect Actor, open/inspect Map, create/inspect Blueprint,
+      read logs, screenshots, run build, report errors back
+
+## Phase 9 — External System Integration (separate approval required for writes)
 - [x] Backend chosen: reuse existing Supabase project from
       `cyber-solar-nexus` (project ref `qubbzwbtvuvpbcaasjmz`) — see
       `Docs/Architecture/BACKEND_INTEGRATION.md`
+- [x] First 10 stores seeded into `mall_units` (catalog only, no leases)
 - [ ] Read-only integration: Unreal fetches `products` / `store_scenes` /
       `mall_units` via Supabase REST (anon key + RLS)
 - [ ] Auth: Unreal client authenticates against the same Supabase Auth
       used by the web app (shared `user_roles`)
-- [ ] Cart/checkout UI in Unreal (mock first, no write access)
-- [ ] Sandboxed write-path testing (leases, purchases) in a non-production
-      Supabase branch/project if available
-- [ ] Explicit go-live approval before any real transaction or lease
-      write path is enabled from Unreal
+- [ ] Cart/checkout UI in Unreal — **mock data and mock checkout only**
+      at this stage, no real payment integration
+- [ ] Analytics event system (foot traffic / views / interactions)
+- [ ] Business-owner dashboard hook (product upload, store management)
+- [ ] Explicit go-live approval before any real transaction, lease write,
+      or payment path is enabled from Unreal
 
-## Phase 8 — Automated Validation
+## Phase 10 — Automated Validation
 - [ ] Self-hosted GitHub Actions runner (Windows + Unreal Engine 5)
 - [ ] Unreal command-line validation
 - [ ] Blueprint compile checks
