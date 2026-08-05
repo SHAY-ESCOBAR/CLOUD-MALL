@@ -12,6 +12,13 @@ This project follows the same GitHub-first approach established in
 `CORE-Unreal-AI`: infrastructure, documentation, and version control come
 first, 3D content comes after.
 
+**Backend decision (2026-08-05):** rather than build a new purchase
+backend, CLOUD MALL connects to the existing Supabase project already
+built for `cyber-solar-nexus` — a Lovable-originated web app that already
+implements a browser-based 3D mall with a real product catalog, cart,
+wallet, and a 120-unit mall leasing system (real ILS rent data). See
+`Docs/Architecture/BACKEND_INTEGRATION.md`.
+
 ## Main Capabilities (target state)
 
 - Reference analysis (mall layout references, store photos, sketches,
@@ -20,8 +27,8 @@ first, 3D content comes after.
 - Procedural scene building
 - Blueprint generation (navigation, store interaction, checkout triggers)
 - Material and lighting creation
-- Real purchase flow integration (product data, cart, checkout — backend
-  TBD; see `Docs/Architecture/SYSTEM_ARCHITECTURE.md`)
+- Real purchase flow integration, backed by the existing `cyber-solar-nexus`
+  Supabase project (see `Docs/Architecture/BACKEND_INTEGRATION.md`)
 - AI-assisted environment production
 - GitHub version control for every generated change
 - Validation and rollback at every stage
@@ -32,7 +39,7 @@ first, 3D content comes after.
 **Foundation and repository setup.** No 3D content, Unreal project, mall
 layout, or store data exists yet. This repository currently establishes
 structure, documentation, version control, and the connection plan to
-Unreal Engine 5 and MCP.
+Unreal Engine 5, MCP, and the existing Supabase backend.
 
 ## Planned Architecture
 
@@ -42,8 +49,9 @@ Unreal Engine 5 and MCP.
 - Unreal MCP server or plugin — the bridge Claude Code uses to control the Editor
 - Python Editor Scripting / Editor Scripting Utilities — in-Editor automation
 - Blueprint automation
-- A real purchase backend (e-commerce API/payment provider — not yet chosen)
-  that the in-world storefronts call into
+- Existing Supabase project (from `cyber-solar-nexus`) as the purchase/mall
+  backend that the in-world storefronts call into — see
+  `Docs/Architecture/BACKEND_INTEGRATION.md`
 - GitHub Actions — repository-level validation (see `.github/workflows`)
 
 See `Docs/Architecture/SYSTEM_ARCHITECTURE.md` for details.
@@ -58,6 +66,9 @@ See `Docs/Architecture/SYSTEM_ARCHITECTURE.md` for details.
 - Blockout first, production detail only after review/approval.
 - No real payment integration goes live without explicit, separate approval
   — this is a hard line given real money will be involved eventually.
+- No write access to the Supabase `mall_units`/`mall_leases` tables (real
+  tenant/rent data) from AI-driven automation without the same approval
+  gate as payments — see `Docs/Architecture/BACKEND_INTEGRATION.md`.
 
 ## Repository Structure
 
@@ -78,9 +89,8 @@ CLOUD-MALL/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/<owner>/<repo>.git cloud-mall
-cd cloud-mall
-git checkout cloud-mall
+git clone -b feature/project-foundation https://github.com/SHAY-ESCOBAR/CLOUD-MALL.git
+cd CLOUD-MALL
 ```
 
 ### 2. Install Git LFS
