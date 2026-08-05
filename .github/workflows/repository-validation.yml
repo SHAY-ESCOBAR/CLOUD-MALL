@@ -1,0 +1,195 @@
+name: Repository Validation
+
+# Validates repository hygiene without requiring Unreal Engine.
+# Full Editor-based validation (Blueprint compile, map load, packaging)
+# runs later on a self-hosted Windows runner — see Docs/Setup/UNREAL_SETUP.md
+# and Docs/Architecture/SYSTEM_ARCHITECTURE.md.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+
+      - name: Required top-level structure
+        run: |
+          set -e
+          echo "Checking required top-level folders and files..."
+          missing=0
+          for path in \
+            ".github/workflows" \
+            ".github/ISSUE_TEMPLATE" \
+            "Config" \
+            "Content/CORE_AI" \
+            "Plugins" \
+            "Scripts/Setup" \
+            "Scripts/Validation" \
+            "Scripts/Unreal" \
+            "Scripts/MCP" \
+            "Source" \
+            "Tests" \
+            "Tools" \
+            "Docs/Architecture" \
+            "Docs/Setup" \
+            "Docs/Workflows" \
+            "Docs/Decisions" \
+            ".gitignore" \
+            ".gitattributes" \
+            "LICENSE" \
+            "README.md" \
+            "ROADMAP.md" \
+            "CONTRIBUTING.md" \
+            "SECURITY.md" \
+            "CHANGELOG.md" \
+            "CLAUDE.md"; do
+            if [ ! -e "$path" ]; then
+              echo "::error::Missing required path: $path"
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            echo "::error::Repository structure check FAILED."
+            exit 1
+          fi
+          echo "Repository structure OK."
+
+      - name: Block ignored/local-only folders from being committed
+        run: |
+          set -e
+          echo "Checking that build/cache folders were not committed..."
+          found=0
+          for pattern in "Saved" "Intermediate" "DerivedDataCache" "Binaries"; do
+            matches=$(git ls-files | grep -E "(^|/)${pattern}/" || true)
+            if [ -n "$matches" ]; then
+              echo "::error::Tracked files found inside a '$pattern/' folder (should be gitignored):"
+              echo "$matches"
+              found=1
+            fi
+          done
+          if [ "$found" -eq 1 ]; then
+            echo "::error::Forbidden local-only folders are tracked in git."
+            exit 1
+          fi
+          echo "No forbidden local-only folders tracked."
+
+      - name: Common secret pattern scan
+        run: |
+          set -e
+          echo "Scanning tracked files for common secret patterns..."
+          found=0
+          patterns=(
+            "AKIA[0-9A-Z]{16}"
+            "-----BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY-----"
+            "ghp_[A-Za-z0-9]{36}"
+            "github_pat_[A-Za-z0-9_]{20,}"
+            "sk-[A-Za-z0-9]{20,}"
+            "xox[baprs]-[A-Za-z0-9-]{10,}"
+            "AIza[0-9A-Za-z\\-_]{35}"
+          )
+          for f in $(git ls-files); do
+            # Skip binary/LFS-pointer-eligible extensions to avoid false positives on binaries.
+            case "$f" in
+              *.uasset|*.umap|*.fbx|*.obj|*.blend|*.wav|*.mp3|*.png|*.jpg|*.jpeg|*.tga|*.exr|*.hdr|*.mp4|*.mov|*.psd|*.zip) continue ;;
+            esac
+            [ -f "$f" ] || continue
+            for p in "${patterns[@]}"; do
+              if grep -E -q "$p" "$f" 2>/dev/null; then
+                echo "::error::Possible secret matching pattern '$p' found in $f"
+                found=1
+              fi
+            done
+          done
+          if [ -f ".env" ]; then
+            echo "::error::.env file is tracked in the repository."
+            found=1
+          fi
+          if [ "$found" -eq 1 ]; then
+            echo "::error::Secret scan FAILED."
+            exit 1
+          fi
+          echo "No obvious secrets found."
+
+      - name: Git LFS tracking check (.uasset / .umap)
+        run: |
+          set -e
+          echo "Checking .uasset and .umap files are tracked via Git LFS..."
+          bad=0
+          for f in $(git ls-files -- '*.uasset' '*.umap' 2>/dev/null); do
+            [ -f "$f" ] || continue
+            header=$(head -c 200 "$f" 2>/dev/null || true)
+            if ! echo "$header" | grep -q "git-lfs"; then
+              echo "::error::$f does not appear to be an LFS pointer (not tracked by Git LFS)."
+              bad=1
+            fi
+          done
+          if [ "$bad" -eq 1 ]; then
+            echo "::error::Some Unreal binary assets are not stored in Git LFS."
+            exit 1
+          fi
+          echo "All tracked .uasset/.umap files are LFS pointers (or none exist yet)."
+
+      - name: Set up Node for JSON/YAML/Markdown linting
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate JSON files
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r -d '' f; do
+            if ! node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$f"; then
+              echo "::error::Invalid JSON: $f"
+              fail=1
+            fi
+          done < <(git ls-files -z -- '*.json')
+          if [ "$fail" -eq 1 ]; then exit 1; fi
+          echo "JSON validation OK."
+
+      - name: Validate YAML files
+        run: |
+          set -e
+          npx --yes js-yaml-cli@1 --help > /dev/null 2>&1 || npm install -g js-yaml --silent
+          fail=0
+          while IFS= read -r -d '' f; do
+            if ! npx --yes js-yaml "$f" > /dev/null 2>&1; then
+              echo "::error::Invalid YAML: $f"
+              fail=1
+            fi
+          done < <(git ls-files -z -- '*.yml' '*.yaml')
+          if [ "$fail" -eq 1 ]; then exit 1; fi
+          echo "YAML validation OK."
+
+      - name: Basic Markdown sanity check
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r -d '' f; do
+            if [ ! -s "$f" ]; then
+              echo "::error::Empty markdown file: $f"
+              fail=1
+            fi
+            # Flag unresolved merge-conflict markers.
+            if grep -qE '^(<{7}|={7}|>{7})' "$f"; then
+              echo "::error::Merge conflict marker found in $f"
+              fail=1
+            fi
+          done < <(git ls-files -z -- '*.md')
+          if [ "$fail" -eq 1 ]; then exit 1; fi
+          echo "Markdown validation OK."
+
+      - name: Summary
+        if: always()
+        run: echo "Repository validation complete."

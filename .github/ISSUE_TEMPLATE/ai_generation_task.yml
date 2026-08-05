@@ -1,0 +1,46 @@
+name: AI Generation Task
+description: Request Claude Code / MCP to generate or modify Unreal content
+title: "[AI Task]: "
+labels: ["ai-generation"]
+body:
+  - type: textarea
+    id: input-reference
+    attributes:
+      label: Input reference
+      description: What material is provided (image, video, sketch, text, dimensions)?
+    validations:
+      required: true
+  - type: textarea
+    id: requested-output
+    attributes:
+      label: Requested output
+    validations:
+      required: true
+  - type: textarea
+    id: allowed-folders
+    attributes:
+      label: Allowed folders
+      description: Which folders may be modified. Default should be Content/CORE_AI/ only.
+      value: Content/CORE_AI/
+    validations:
+      required: true
+  - type: textarea
+    id: assets-to-preserve
+    attributes:
+      label: Assets to preserve
+      description: Existing assets that must NOT be changed or deleted.
+    validations:
+      required: false
+  - type: textarea
+    id: validation-requirements
+    attributes:
+      label: Validation requirements
+    validations:
+      required: false
+  - type: textarea
+    id: rollback-checkpoint
+    attributes:
+      label: Rollback checkpoint
+      description: Commit/branch to revert to if this task needs to be undone.
+    validations:
+      required: true

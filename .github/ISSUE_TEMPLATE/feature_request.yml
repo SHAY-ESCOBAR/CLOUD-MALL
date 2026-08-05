@@ -1,0 +1,54 @@
+name: Feature Request
+description: Propose a new capability for the CLOUD MALL system
+title: "[Feature]: "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should this feature accomplish?
+    validations:
+      required: true
+  - type: textarea
+    id: user-value
+    attributes:
+      label: User value
+      description: Why does this matter? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: technical-requirements
+    attributes:
+      label: Technical requirements
+      description: Known constraints, dependencies, APIs, tools needed.
+    validations:
+      required: false
+  - type: textarea
+    id: unreal-components
+    attributes:
+      label: Unreal components
+      description: Blueprints, Actors, Materials, Widgets, plugins, etc. involved.
+    validations:
+      required: false
+  - type: textarea
+    id: assets-affected
+    attributes:
+      label: Assets affected
+      description: Existing assets this feature touches, if any.
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: How do we know this is done?
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks
+      description: What could break, and what is the rollback plan?
+    validations:
+      required: false

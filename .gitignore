@@ -1,0 +1,97 @@
+## ============================================================
+## CLOUD-MALL — .gitignore
+## Unreal Engine project. Do NOT ignore: Config/, Content/, Plugins/,
+## Source/, Scripts/, Docs/ (see explicit re-includes at bottom).
+## ============================================================
+
+# ---- Unreal Engine build / cache / local-only folders ----
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+*.VC.db
+*.VC.opendb
+
+# Per-plugin/source generated folders (Unreal creates these anywhere)
+**/Binaries/
+**/Intermediate/
+**/Saved/
+**/DerivedDataCache/
+
+# ---- IDE / editor ----
+.vs/
+.idea/
+.vscode/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.xcworkspace
+*.xcuserstate
+
+# ---- Unreal generated project files (regenerated from .uproject) ----
+*.sln
+*.xcodeproj/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# ---- Logs / crash reports / temp ----
+*.log
+Saved/Logs/
+Saved/Crashes/
+CrashReportClient/
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# ---- OS system files ----
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# ---- Secrets / credentials ----
+.env
+.env.*
+*.pem
+*.key
+*secret*
+*credentials*
+*.token
+Config/DefaultEngine.ini.local
+
+# ---- Packaging output ----
+Saved/StagedBuilds/
+Saved/Cooked/
+Packaged/
+
+# ---- Python / tooling caches (Editor Scripting, MCP scripts) ----
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+
+# ============================================================
+# Explicit re-includes — never let broad rules above swallow these.
+# (Force-tracked project source of truth.)
+# ============================================================
+!Config/
+!Content/
+!Plugins/
+!Source/
+!Scripts/
+!Docs/

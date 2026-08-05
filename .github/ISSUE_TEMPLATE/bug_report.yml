@@ -1,0 +1,60 @@
+name: Bug Report
+description: Report a problem with the project
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: input
+    id: unreal-version
+    attributes:
+      label: Unreal version
+    validations:
+      required: false
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+    validations:
+      required: true
+  - type: input
+    id: branch
+    attributes:
+      label: Branch
+    validations:
+      required: true
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: Reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+    validations:
+      required: false
+  - type: textarea
+    id: affected-assets
+    attributes:
+      label: Affected assets
+    validations:
+      required: false

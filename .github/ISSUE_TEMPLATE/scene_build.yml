@@ -1,0 +1,65 @@
+name: Scene Build
+description: Request a new environment/scene to be analyzed and built
+title: "[Scene]: "
+labels: ["scene-build"]
+body:
+  - type: textarea
+    id: reference-files
+    attributes:
+      label: Reference files
+      description: Links or paths to images, video, sketches placed under Content/CORE_AI/References/.
+    validations:
+      required: true
+  - type: textarea
+    id: scene-purpose
+    attributes:
+      label: Scene purpose
+    validations:
+      required: true
+  - type: textarea
+    id: dimensions
+    attributes:
+      label: Estimated dimensions
+    validations:
+      required: false
+  - type: textarea
+    id: interactions
+    attributes:
+      label: Required interactions
+    validations:
+      required: false
+  - type: textarea
+    id: lighting
+    attributes:
+      label: Lighting
+    validations:
+      required: false
+  - type: textarea
+    id: materials
+    attributes:
+      label: Materials
+    validations:
+      required: false
+  - type: textarea
+    id: performance-target
+    attributes:
+      label: Performance target
+    validations:
+      required: false
+  - type: textarea
+    id: unknown-details
+    attributes:
+      label: Unknown details
+      description: Anything that cannot be determined from the reference and needs an assumption or a follow-up question.
+    validations:
+      required: false
+  - type: dropdown
+    id: approval-status
+    attributes:
+      label: Approval status
+      options:
+        - Draft
+        - Pending review
+        - Approved
+    validations:
+      required: true
