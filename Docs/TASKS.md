@@ -10,21 +10,21 @@ done. Cross-reference `ROADMAP.md` for the full phased plan.
 - [ ] Confirm Editor Scripting Utilities plugin can be enabled in a test
       project
 
-## Phase 2 — Unreal Project Creation
-- [ ] `git clone -b feature/project-foundation` this repo locally (if not
-      already done)
-- [ ] Unreal → New Project → **Blank** template → Location = the repo
-      clone → Name = `ShayVirtualMall`
-- [ ] Confirm `Content/`, `Config/` sit next to the new `.uproject`
-- [ ] Commit the `.uproject` + `Config/` on this branch (not `main`)
-- [ ] Report back so `Docs/Setup/UNREAL_SETUP.md` can be updated with the
-      final confirmed details
+## Phase 2 — Unreal Project Creation — DONE (2026-08-06)
+- [x] `git clone -b feature/project-foundation` this repo locally
+- [x] Unreal → New Project → Blank template → `CLOUDMALL.uproject`
+      created at the repo root
+- [x] Confirmed `Content/`, `Config/` sit next to the `.uproject`
+- [x] Committed the `.uproject` + `Config/` on this branch (not `main`)
+- [x] `Docs/Setup/UNREAL_SETUP.md` updated with final confirmed details
 
-## Phase 3 — Greybox (blocked on Phase 2)
+## Phase 3 — Greybox (current focus)
+- [ ] Open `CLOUDMALL.uproject`, confirm the Editor loads without errors
+- [ ] Verify Play In Editor works on the default/empty map
 - [ ] Block out entrance + lobby + main corridor
 - [ ] Block out 3 storefronts (technology / fashion / café)
 - [ ] Pick which one store becomes the first fully-active one
-- [ ] Basic first-person movement working
+- [ ] Basic first-person keyboard+mouse movement
 - [ ] Screenshot the result for review before moving to Phase 4
 
 ## Not started, tracked for later
