@@ -19,8 +19,16 @@ done. Cross-reference `ROADMAP.md` for the full phased plan.
 - [x] `Docs/Setup/UNREAL_SETUP.md` updated with final confirmed details
 
 ## Phase 3 — Greybox (current focus)
-- [ ] Open `CLOUDMALL.uproject`, confirm the Editor loads without errors
-- [ ] Verify Play In Editor works on the default/empty map
+- [x] Opened `CLOUDMALL.uproject`, Editor loads without errors
+- [x] Created `Content/Maps/Development/DEV_EmptyLevel.umap` — a genuinely
+      empty level (0 actors), replacing the default demo/landscape map
+      Unreal ships with new projects
+- [x] Set as both Editor Startup Map and Game Default Map
+      (Project Settings → Maps & Modes)
+- [x] Committed and pushed — verified on GitHub as a 129-byte LFS pointer
+      (confirms `.umap` is correctly routed through Git LFS, not stored
+      as a raw blob)
+- [ ] Verify Play In Editor works on `DEV_EmptyLevel`
 - [ ] Block out entrance + lobby + main corridor
 - [ ] Block out 3 storefronts (technology / fashion / café)
 - [ ] Pick which one store becomes the first fully-active one
