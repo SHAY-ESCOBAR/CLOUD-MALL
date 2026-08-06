@@ -29,8 +29,18 @@ done. Cross-reference `ROADMAP.md` for the full phased plan.
       (confirms `.umap` is correctly routed through Git LFS, not stored
       as a raw blob)
 - [ ] Verify Play In Editor works on `DEV_EmptyLevel`
-- [ ] Block out entrance + lobby + main corridor
-- [ ] Block out 3 storefronts (technology / fashion / café)
+- [x] Block out entrance + lobby + main corridor (Atrium + corridor floors
+      and walls placed via `Scripts/Unreal/phase3_greybox_floors.py` +
+      `phase3_greybox_walls.py`, confirmed via Editor log — 2026-08-06)
+- [ ] Block out 3 storefronts (technology / fashion / café) — script ready
+      at `Scripts/Unreal/phase3_greybox_bays.py`, run via
+      Tools > Execute Python Script..., **not yet run/confirmed**. This
+      script also replaces `SM_CorridorWall_North_Greybox` (previously one
+      solid 36m wall) with a shorter remainder wall so the 3 bays have
+      open storefronts — see the script's docstring for why.
+- [ ] Follow-up once bays are confirmed: storefront-facing wall/glass/door
+      per bay (currently fully open), a ceiling, and picking which 3 of
+      the 10 seeded `mall_units` rows these bays represent (not decided)
 - [ ] Pick which one store becomes the first fully-active one
 - [ ] Basic first-person keyboard+mouse movement
 - [ ] Screenshot the result for review before moving to Phase 4
