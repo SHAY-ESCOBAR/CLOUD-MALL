@@ -86,6 +86,8 @@ Two options, either is a reasonable next script once picked:
    the existing corridor, proving the "reuse the core, add a floor"
    principle for the first time.
 
-Not started yet — pick one before a script gets written, to keep
-building incremental and verifiable (screenshot-checked) like every
-other Phase 3 step so far.
+**Update (2026-08-06): option 1 chosen.** Script ready at
+`Scripts/Unreal/groundfloor_flagship_anchor.py` — 24m Flagship Anchor bay
+(top of the 16-24m range, per "big brand flagship" brief) placed east of
+the existing Cafe bay, corridor extended to reach it. Not yet run/
+confirmed. Option 2 (Level 2) still not started.
