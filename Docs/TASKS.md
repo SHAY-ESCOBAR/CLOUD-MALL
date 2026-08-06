@@ -42,7 +42,14 @@ done. Cross-reference `ROADMAP.md` for the full phased plan.
       per bay (currently fully open), a ceiling, and picking which 3 of
       the 10 seeded `mall_units` rows these bays represent (not decided)
 - [ ] Pick which one store becomes the first fully-active one
-- [ ] Basic first-person keyboard+mouse movement
+- [ ] Basic first-person keyboard+mouse movement — path chosen: Epic's
+      built-in "First Person" content pack (not a hand-built Blueprint),
+      plus `Scripts/Unreal/phase3_playerstart.py` for the spawn point.
+      Full steps are in that script's docstring. Not yet run/confirmed.
+      Confirmed already: the default flying spectator pawn (Blank
+      template ships with one) already lets Play-In-Editor be tested
+      today with zero extra setup — press Play, click into the viewport,
+      WASD + mouse, E/Q for up/down.
 - [ ] Screenshot the result for review before moving to Phase 4
 
 ## Not started, tracked for later
