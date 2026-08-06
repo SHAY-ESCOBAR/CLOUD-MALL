@@ -44,11 +44,14 @@ per `Docs/Decisions/ADR-002-SHAY-VIRTUAL-MALL-SCOPE.md`.
 ## Phase 3 — Greybox MVP
 No investment in final art yet — validate scale, flow, and interactions:
 - [ ] Exterior mall entrance structure
-- [ ] Central lobby
-- [ ] Main corridor
-- [ ] Three storefronts: technology / fashion / café
+- [x] Central lobby (Atrium greybox, 24m x 24m)
+- [x] Main corridor (extended to X=6000 to reach the Flagship Anchor bay)
+- [x] Three storefronts: technology / fashion / café (plus a 4th,
+      Flagship Anchor, added past MVP scope per Docs/Architecture/
+      TENANT_MIX_PLAN.md)
 - [ ] At least one store fully active/enterable
-- [ ] First-person keyboard+mouse movement
+- [ ] First-person keyboard+mouse movement (real walking — flying
+      spectator confirmed working today, see Docs/TASKS.md)
 - [ ] Automatic doors
 - [ ] Basic information point + signage
 - [ ] Basic dynamic lighting
