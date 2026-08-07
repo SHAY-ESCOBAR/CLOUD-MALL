@@ -48,9 +48,14 @@ done. Cross-reference `ROADMAP.md` for the full phased plan.
 - [x] PlayerStart placed at the mall entrance via
       `Scripts/Unreal/phase3_playerstart.py` — confirmed via Editor log
       — 2026-08-06
+- [ ] Ceiling — script ready at `Scripts/Unreal/phase3_ceiling.py` (3
+      slabs: Atrium/corridor/store row), **not yet run/confirmed**. Heads
+      up: this will make the interior dark, since the existing
+      DirectionalLight/SkyLight end up outside the new ceiling — interior
+      lighting becomes the next real follow-up once this is run.
 - [ ] Follow-up: storefront-facing wall/glass/door per bay (currently
-      fully open on all 4 bays including the new anchor), a ceiling, and
-      picking which `mall_units` rows these bays represent (not decided)
+      fully open on all 4 bays including the new anchor), and picking
+      which `mall_units` rows these bays represent (not decided)
 - [ ] Pick which one store becomes the first fully-active one
 - [ ] Real walking first-person movement — path chosen: Epic's built-in
       "First Person" content pack (not a hand-built Blueprint) + setting
